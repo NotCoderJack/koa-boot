@@ -1,10 +1,11 @@
 const koa = require('koa');
 const fs = require('fs');
 const path = require('path')
+const staticMiddle = require('koa-static');
+const historyFallback = require('koa2-history-api-fallback');
 const Router = require('koa-router');
 
 class Loader {
-
     load(app) {
         const components = [{
             name: 'controller',
@@ -23,10 +24,8 @@ class Loader {
         const componentName = component.name;
         app[componentName] = {};
         const dir = fs.readdirSync(pathname);
-        console.log('comp:', dir);
         dir.map(filename => {
             const filepath = path.join(pathname, filename);
-            console.log('filename:', filepath)
             const stats = fs.statSync(filepath)
             const isFile = stats.isFile();
             if (isFile) {
@@ -58,7 +57,6 @@ class Loader {
             const isDir = stats.isDirectory();
             if (isFile) {
                 const router = require(filepath)(app);
-                console.log('router: ', router)
                 this.addRouters(router, app);
             }
             // 遍历多级目录
@@ -97,9 +95,13 @@ class KoaBoot extends koa {
     init() {
         this.loader.load(this);
         this.loader.loadConfig(this);
+        
         this.use(this.loader.setRoutes(this));
+        this.use(historyFallback());
+        this.use(staticMiddle(
+            path.join( __dirname, '/')
+        ))
     }
-    
 }
 
 module.exports = KoaBoot
