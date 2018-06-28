@@ -1,7 +1,7 @@
 node_modules
 dist
 .vscode
-config
+config/config.db.js
 mysql.sql
 koaboot.md
 index.html
