@@ -1,7 +1,10 @@
-const getArticle = async (ctx, next) => {
-    ctx.body = 'getUserInfo';
+class ArticleController {
+    constructor(app) {
+        this.app = app;
+    }
+    async getArticle(ctx) {
+        ctx.body = 'getUserInfo';
+    }
 }
 
-module.exports = {
-    getArticle
-}
+module.exports = ArticleController;

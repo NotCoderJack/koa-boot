@@ -1,8 +1,5 @@
-
-const user = (app) => {
+module.exports = (app) => {
     return {
-        'get /': app.controller.user.getUser,
+        'post /user/login': app.controller.user.login,
     }
 }
-
-module.exports = user;

@@ -4,6 +4,8 @@ const path = require('path')
 const staticMiddle = require('koa-static');
 const historyFallback = require('koa2-history-api-fallback');
 const Router = require('koa-router');
+const koaBody = require('koa-body');
+const DataSource = require('./app/dao/datasource');
 
 class Loader {
     load(app) {
@@ -30,7 +32,7 @@ class Loader {
             const isFile = stats.isFile();
             if (isFile) {
                 const comp = require(filepath);
-                app[componentName][filename.split('.')[0]] = comp;
+                app[componentName][filename.split('.')[0]] = new comp(app);
             }
         })
     }
@@ -73,9 +75,9 @@ class Loader {
     addRouters(router, app) {
         Object.keys(router).map(key => {
             const [method, path] = key.split(' ');
-            app.router[method](path, (ctx) => {
+            app.router[method](path, (ctx, next) => {
                 const handleRequest = router[key];
-                handleRequest(ctx, app.service)
+                handleRequest(ctx, next)
             })
         })
     }
@@ -89,13 +91,17 @@ class KoaBoot extends koa {
         this.router = new Router()
         this.controller = {}
         this.service = {}
-
+        this.connections = {}
         this.init()
     }
-    init() {
+    async init() {
         this.loader.load(this);
         this.loader.loadConfig(this);
         
+        this.connections = await DataSource.connect();
+        this.use(koaBody({
+            multipart: true
+        }));
         this.use(this.loader.setRoutes(this));
         this.use(historyFallback());
         this.use(staticMiddle(
@@ -103,5 +109,4 @@ class KoaBoot extends koa {
         ))
     }
 }
-
 module.exports = KoaBoot

@@ -1,17 +1,14 @@
-const fs = require('fs')
-const path = require('path');
+class UserController {
+    constructor(app) {
+        this.app = app;
+        this.login = this.login.bind(this);
+    }
+    async login(ctx, next) {
+        const users = await this.app.service.user.getUserByName()
+        ctx.body = '300000';
+        console.log(users)
+        return next()
+    }
+}
 
-const getUser = async (ctx, service) => {
-    const html = fs.readFileSync(path.join(__dirname, '../../index.html'))
-    ctx.response.type= "text/html";
-    ctx.response.status = 200;
-    ctx.response.body = html;
-}
-const getUserInfo = async (ctx, service) => {
-    ctx.body = 'getUserInfo';
-}
-
-module.exports = {
-    getUser, 
-    getUserInfo
-}
+module.exports = UserController;
