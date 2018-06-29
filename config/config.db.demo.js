@@ -1,6 +1,5 @@
 const db = {
     clients: {
-        // clientId, 获取client实例，需要通过 app.mysql.get('clientId') 获取
         db2: {
             type: 'mongodb',
             enable: false,

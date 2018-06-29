@@ -5,6 +5,7 @@ const staticMiddle = require('koa-static');
 const historyFallback = require('koa2-history-api-fallback');
 const Router = require('koa-router');
 const koaBody = require('koa-body');
+const koaSession = require('koa-session');
 const DataSource = require('./app/dao/datasource');
 
 class Loader {
@@ -50,6 +51,11 @@ class Loader {
             }
         })
     }
+    setRoutes(app) {
+        const routerPath = path.resolve('./app/router');
+        this.scanRouter(routerPath, app)
+        return app.router.routes()
+    }
     scanRouter(pathname, app){
         const dir = fs.readdirSync(pathname);
         dir.map(filename => {
@@ -67,17 +73,12 @@ class Loader {
             }
         })
     }
-    setRoutes(app) {
-        const routerPath = path.resolve('./app/router');
-        this.scanRouter(routerPath, app)
-        return app.router.routes()
-    }
     addRouters(router, app) {
         Object.keys(router).map(key => {
             const [method, path] = key.split(' ');
-            app.router[method](path, (ctx, next) => {
+            app.router[method](path, async (ctx, next) => {
                 const handleRequest = router[key];
-                handleRequest(ctx, next)
+                await handleRequest(ctx, next)
             })
         })
     }
@@ -99,6 +100,15 @@ class KoaBoot extends koa {
         this.loader.loadConfig(this);
         
         this.connections = await DataSource.connect();
+        this.use(koaSession({
+            key: 'SID', 
+            maxAge: 86400000,
+            overwrite: true, /** (boolean) can overwrite or not (default true) */
+            httpOnly: true, /** (boolean) httpOnly or not (default true) */
+            signed: true, /** (boolean) signed or not (default true) */
+            rolling: false, /** (boolean) Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown. (default is false) */
+            renew: false
+        }, this))
         this.use(koaBody({
             multipart: true
         }));
