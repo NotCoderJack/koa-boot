@@ -2,6 +2,7 @@ const koa = require('koa');
 const fs = require('fs');
 const path = require('path')
 const staticMiddle = require('koa-static');
+const staticCache = require('koa-static-cache');
 const historyFallback = require('koa2-history-api-fallback');
 const Router = require('koa-router');
 const koaBody = require('koa-body');
@@ -116,6 +117,9 @@ class KoaBoot extends koa {
         this.use(historyFallback());
         this.use(staticMiddle(
             path.join( __dirname, '/')
+        ))
+        this.use(staticCache(
+            path.join( __dirname, '/dist')
         ))
     }
 }

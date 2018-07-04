@@ -18,11 +18,10 @@ class BaseResponse {
         this.respFail = this.respFail.bind(this);
     }
     respSuccess(data) {
-        return {
+        return Object.assign({
             code: 200,
             message: this.codeMap.get(200),
-            data: data || null
-        }
+        }, data || {})
     }
     respFail(code, msg, data) {
         return {
