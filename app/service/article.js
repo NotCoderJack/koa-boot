@@ -2,6 +2,7 @@ class ArticleService {
     constructor(app) {
         this.app = app;
         this.deleteArticle = this.deleteArticle.bind(this);
+        this.getArticleById = this.getArticleById.bind(this);
     }
     async deleteArticle(articleId) {
         const sql = 'UPDATE article SET state = 2 where id = ?';
