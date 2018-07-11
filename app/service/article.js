@@ -26,7 +26,7 @@ class ArticleService {
                     FROM article a 
                     LEFT JOIN article_tags a_t ON a.id = a_t.aid 
                     LEFT JOIN tags t ON a_t.tid = t.id
-                    WHERE a.id = ? && a.state = 1`;
+                    WHERE a.id = ? AND a.state = 1`;
         const [ret] = await this.app.connections.db1.execute(sql, [articleId]);
         return ret && ret[0];
     }

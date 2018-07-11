@@ -116,10 +116,13 @@ class KoaBoot extends koa{
         this.use(this.loader.setRoutes(this));
         this.use(historyFallback());
         this.use(staticMiddle(
-            path.join( __dirname, '/')
+            path.join( __dirname, './dist')
         ))
         this.use(staticCache(
-            path.join( __dirname, '/dist')
+            path.join( __dirname, './dist'),
+            {
+                maxAge: 365 * 24 * 60 * 60
+            }
         ))
     }
 }
