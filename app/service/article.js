@@ -28,8 +28,10 @@ class ArticleService {
         const sql = `SELECT a.id, a.title, a.summary, a.mdContent, a.publishDate, a.pageView, a.isOriginal, a.coverImage, a.originalUrl, t.tagName AS tags 
                     FROM article a 
                     LEFT JOIN article_tags a_t ON a.id = a_t.aid 
-                    LEFT JOIN tags t ON a_t.tid = t.id`
-        const [ret, fields] = await this.app.connections.db1.execute(sql);
+                    LEFT JOIN tags t ON a_t.tid = t.id
+                    WHERE a.id = ?`;
+        console.log(this.app.connections)
+        const [ret, fields] = await this.app.connections.db1.execute(sql, [articleId]);
         return ret && ret[0];
     }
 }

@@ -85,7 +85,7 @@ class Loader {
     }
 }
 
-class KoaBoot extends koa {
+class KoaBoot extends koa{
     constructor(props) {
         super(props)
         this.config = {}

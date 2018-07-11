@@ -1,26 +1,31 @@
 {
-    "name": "koa-demo",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "start": "nodemon app.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "koa": "^2.5.1",
-        "koa-body": "^4.0.3",
-        "koa-router": "^7.4.0",
-        "koa-session": "^5.8.1",
-        "koa-static": "^5.0.0",
-        "koa-static-cache": "^5.1.2",
-        "koa2-history-api-fallback": "^0.0.5",
-        "mysql2": "^1.5.3"
-    },
-    "devDependencies": {
-        "colors": "^1.3.0",
-        "nodemon": "^1.17.4"
-    }
+  "name": "koa-boot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.5.1",
+    "koa-body": "^4.0.3",
+    "koa-router": "^7.4.0",
+    "koa-session": "^5.8.1",
+    "koa-static": "^5.0.0",
+    "koa-static-cache": "^5.1.2",
+    "koa2-history-api-fallback": "^0.0.5",
+    "mysql2": "^1.5.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "colors": "^1.3.0",
+    "nodemon": "^1.17.4"
+  }
 }
