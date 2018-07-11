@@ -1,7 +1,6 @@
 const koa = require('koa');
 const fs = require('fs');
 const path = require('path')
-const staticMiddle = require('koa-static');
 const staticCache = require('koa-static-cache');
 const historyFallback = require('koa2-history-api-fallback');
 const Router = require('koa-router');
@@ -115,13 +114,11 @@ class KoaBoot extends koa{
         }));
         this.use(this.loader.setRoutes(this));
         this.use(historyFallback());
-        this.use(staticMiddle(
-            path.join( __dirname, './dist')
-        ))
         this.use(staticCache(
             path.join( __dirname, './dist'),
             {
-                maxAge: 365 * 24 * 60 * 60
+                maxAge: 365 * 24 * 60 * 60,
+                cacheControl: 'public, max-age=31536000'
             }
         ))
     }
