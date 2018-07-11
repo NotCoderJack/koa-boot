@@ -60,7 +60,7 @@ class ArticleController {
             if (article) {
                 ctx.body = BaseResp.respSuccess({article});
             } else {
-                ctx.body = BaseResp.respFail(-1, '删除失败');
+                ctx.body = BaseResp.respFail(-1, '获取文章失败');
             }
         } catch (e) {
             console.log(e);

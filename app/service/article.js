@@ -6,12 +6,9 @@ class ArticleService {
     }
     async deleteArticle(articleId) {
         const sql = 'UPDATE article SET state = 2 where id = ?';
-        try {
-            // [{ fieldCount, affectedRows, insertId, info, serverStatus, changedRows }]
-            const [ret] = await this.app.connections.db1.execute(sql, [articleId])
-            console.log(ret)
-            return ret.affectedRows > 0;
-        } catch(e) {}
+        const [ret] = await this.app.connections.db1.execute(sql, [articleId])
+        console.log(ret)
+        return ret.affectedRows > 0;
     }
     async allArticle(currentPage) {
         const limit = 10;
@@ -29,9 +26,8 @@ class ArticleService {
                     FROM article a 
                     LEFT JOIN article_tags a_t ON a.id = a_t.aid 
                     LEFT JOIN tags t ON a_t.tid = t.id
-                    WHERE a.id = ?`;
-        console.log(this.app.connections)
-        const [ret, fields] = await this.app.connections.db1.execute(sql, [articleId]);
+                    WHERE a.id = ? && a.state = 1`;
+        const [ret] = await this.app.connections.db1.execute(sql, [articleId]);
         return ret && ret[0];
     }
 }
