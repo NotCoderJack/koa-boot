@@ -22,7 +22,7 @@ class ArticleService {
         return ret;
     }
     async getArticleById(articleId) {
-        const sql = `SELECT a.id, a.title, a.summary, a.htmlContent, a.publishDate, a.pageView, a.isOriginal, a.coverImage, a.originalUrl, t.tagName AS tags 
+        const sql = `SELECT a.id, a.title, a.summary, a.htmlContent, a.publishDate, a.pageView, a.isOriginal, a.coverImage, a.sourceUrl, t.tagName AS tags 
                     FROM article a 
                     LEFT JOIN article_tags a_t ON a.id = a_t.aid 
                     LEFT JOIN tags t ON a_t.tid = t.id
