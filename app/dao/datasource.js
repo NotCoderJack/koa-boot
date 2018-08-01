@@ -15,7 +15,7 @@ class DataSource {
     // 根据配置信息，建立数据库链接
     async createConnection(db) {
         if (db.type === 'mysql') {
-            const conn = await mysql.createConnection(db);
+            const conn = await mysql.createPool(db);
             return conn;
         }
     }
