@@ -119,6 +119,11 @@ class KoaBoot extends koa{
             {
                 maxAge: 365 * 24 * 60 * 60,
                 cacheControl: 'public, max-age=31536000'
+            },
+            {
+                '/index.html': {
+                    cacheControl: 'max-age=0'
+                }
             }
         ))
     }
